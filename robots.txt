@@ -2,5 +2,5 @@
 User-agent: *
 Allow: /
 
-# After you publish, update this to your real domain:
-Sitemap: https://YOUR-DOMAIN.com/sitemap.xml
+# Update this if you add a custom domain later:
+Sitemap: https://galetour-safaris.netlify.app/sitemap.xml
