@@ -1,0 +1,6 @@
+# Allow all search engines to index the whole site
+User-agent: *
+Allow: /
+
+# Update this if you add a custom domain later:
+Sitemap: https://galetour-safaris.netlify.app/sitemap.xml
