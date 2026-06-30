@@ -42,25 +42,24 @@ const CAT_LABEL = { water:"Water", culture:"Culture", adventure:"Adventure", com
 function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 /* ---------- Your own photos ----------
-   Map an activity NAME to a real photo file in assets/img/.
-   Drop the matching file in assets/img/ and it shows automatically.
-   Until the file exists, the card falls back to a keyword stand-in,
-   so nothing is ever blank. Add more lines here as you collect photos. */
-const LOCAL_IMG = {
-  "Nakupenda Island Tour": "nakupenda.jpg",
-  "Mnemba Snorkeling":     "mnemba.jpg",
-  "Prison Island Tour":    "prison-island.jpg",
-  "Stone Town Tour":       "stone-town.jpg"
-};
+   Every activity automatically looks for its own photo at
+       assets/img/<slug>.jpg
+   where <slug> = the activity name in lowercase, words joined by "-",
+   and "&" written as "and". Example: "Spice Tour" -> assets/img/spice-tour.jpg
+   Just upload a file with that name (no code changes needed) and it appears.
+   Until the file exists, the card shows a keyword stand-in, so it is never blank.
+   The exact file name for every activity is listed in assets/img/README.md. */
+function slug(name){
+  return name.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
 
 /* ---------- Render activity cards (only where a #cards grid exists) ---------- */
 const cardsEl = document.getElementById('cards');
 if (cardsEl) {
   cardsEl.innerHTML = ACTIVITIES.map(([name,desc,cat,icon,dur,tags], i) => {
     const fallback = `https://loremflickr.com/640/480/${tags}?lock=${i + 1}`;
-    const local = LOCAL_IMG[name];
-    const src = local ? `assets/img/${local}` : fallback;
-    const onerr = local ? ` onerror="this.onerror=null;this.src='${fallback}'"` : ``;
+    const src = `assets/img/${slug(name)}.jpg`;
+    const onerr = ` onerror="this.onerror=null;this.src='${fallback}'"`;
     return `
     <article class="card reveal" data-cat="${cat}">
       <div class="card-figure">
